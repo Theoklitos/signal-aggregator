@@ -56,6 +56,11 @@ Or, go in signal-aggregator-frontend and do `npm start`, assuming you have npm i
 ## Screenshots
 Showing is better than telling!
 
+![New UI!](screenshots/newsignals1.png)
+![New UI!](screenshots/newsignals2.png)
+![New UI!](screenshots/oldsignals1.png)
+![New UI!](screenshots/oldsignals2.png)
+![New UI!](screenshots/oldsignals3.png)
 
 ## Disclaimer
 The code above is for educational purposes.
