@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
+</head>
+<body>
+	<div th:fragment="header(selectedPage)">		
+		<table class="sa-header">
+			<tr>
+				<td><a th:href="@{/}">Home</a></td>
+				<td><a th:href="@{/jobs}">Jobs</a></td>			
+				<td><a th:href="@{/signals}">Signals</a></td>
+				<td><a th:href="@{/trades}">Trades</a></td>
+				<td><a th:href="@{/ranking}">Ranking</a></td>
+			</tr>
+		</table>				
+		<h2 th:text="${selectedPage}"></h2>
+	</div>
+	
+	<div th:fragment="jobTable(title)">
+		<table class="sa-table">
+	    	<thead>
+				<tr>
+					<th th:text="${title}"></th>
+					<th>Duration</th>
+					<th>Last Successful Run at</th>					
+					<th>Last Outcome</th>
+					<th>Last Message</th>
+					<th>Next Run in</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="job : ${jobs}">
+			        <td th:text="${job.name}"></td>
+			        <td th:text="${@formatter.asDuration(job.durationMillis)}"></td>		        
+			        <td th:text="${@formatter.asDate(job.lastRunDate)}"></td>
+			        <td th:text="${job.status}"></td>
+			        <td th:text="${job.message}"></td>			        
+			        <td th:text="${@formatter.asDuration(job.millisToNextRun)}"></td>
+			        		        
+			        <td>
+			        	<div th:if="${job.enabled}">
+				        	<form th:method="POST" th:action="@{/jobs}">
+				        		<input type="hidden" name="jobId" th:value="${job.id}"></input>
+				        		<input type="submit" value="Run now"></input>
+				        	</form>
+			        	</div>
+			        </td>
+		      	</tr>		
+			</tbody>
+	    </table>
+	</div>
+	
+	<div th:fragment="signalTable">	
+		<table th:if="${signals.size() > 0}" class="sa-table">
+	    	<thead>
+				<tr>
+					<th>ID</th>
+					<th>Signal Provider</th>
+					<th>Instrument</th>
+					<th>Side</th>
+					<th><strong>P/L</strong></th>					
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th>Duration</th>										
+					<th>Entry Price</th>
+					<th>Stop Loss</th>
+					<th>Take Profit</th>					
+					<th>Trade</th>
+				</tr>
+			</thead>
+			<tbody> 
+				<tr th:each="signal : ${signals}" th:class="${@formatter.getClassForMoney(signal.trade)}">
+				<td th:text="${signal.id}"></td>
+			        <td th:text="${signal.providerName}"></td>			        
+			        <td th:text="${signal.instrument}"></td>
+			        <td th:text="${signal.side}"></td>			        
+			        <td class="plCell" th:text="${@formatter.asMoneyString(signal)}"></td>
+			        <td th:text="${@formatter.asDate(signal.startDate)}"></td>
+			        <td th:text="${@formatter.asDate(signal.endDate)}"></td>			        
+			        <td th:text="${@formatter.asDuration(signal.startDate, signal.endDate)}"></td>
+			        <td th:text="${@formatter.asMoneyString(signal.entryPrice)}"></td>
+			        <td th:text="${@formatter.asMoneyString(signal.stopLoss)}"></td>
+			        <td th:text="${@formatter.asMoneyString(signal.takeProfit)}"></td>
+			        <td th:if="${signal.trade?.id != null}"><a th:href="@{/trades/{id}(id=${signal.trade.id})}">Link</a></td>      
+			        <td th:if="${signal.trade == null}">None</td>		        
+		      	</tr>		
+			</tbody>
+		</table>
+		<p th:if="${signals.size() == 0}">None.</p>
+	</div>
+	
+	<div th:fragment="tradeTable">
+		<table th:if="${trades.size() > 0}" class="sa-table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Instrument</th>
+					<th>Side</th>					
+					<th><strong>P/L</strong></th>
+					<th>Opened At</th>
+					<th>Entry Price</th>
+					<th>Closed At</th>					
+					<th>Closing Price</th>
+					<th>Trade Details</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr th:each="trade : ${trades}" th:class="${@formatter.getClassForMoney(trade)}">
+					<td th:text="${trade.id}"></td>			          
+			        <td th:text="${trade.signal?.instrument}"></td>
+			        <td th:text="${trade.signal?.side}"></td>			        
+			        <td class="plCell" th:text="${@formatter.asMoneyString(trade.pl)}"></td>
+			        <td th:text="${@formatter.asDate(trade.startDate)}"></td>
+			        <td th:text="${@formatter.asMoneyString(trade.entryPrice)}"></td>
+			        <td th:text="${@formatter.asDate(trade.endDate)}"></td>
+			        <td th:text="${@formatter.asMoneyString(trade.closingPrice)}"></td>
+			        <td th:if="${trade.remoteId != null}"><a th:href="@{/trades/{id}(id=${trade.id})}" th:text="Link"></a></td>
+			        <td th:if="${trade.remoteId == null}">None</td>			       
+		      </tr>
+			</tbody>
+		</table>		
+		<p th:if="${trades.size() == 0}">None.</p>	
+	</div>
+	
+	<div th:fragment="aggregationTable">	
+		<table th:if="${aggregations.size() > 0}" class="sa-table">
+	    	<thead>
+				<tr>					
+					<th>Instrument</th>
+					<th>Side</th>
+					<th>Signal Providers</th>					
+					<th>Total Rank</th>					
+				</tr>
+			</thead>
+			<tbody> 
+				<tr th:each="aggregation: ${aggregations}">
+					<td th:text="${aggregation.instrument}"></td>
+					<td th:text="${aggregation.side}"></td>
+					<td th:text="${@formatter.asProvidersString(aggregation)}"></td>
+					<td th:text="${aggregation.totalRank}"></td>
+		      	</tr>		
+			</tbody>
+		</table>		
+	</div>
+	
+	<div th:fragment="footer">
+		<br />
+		<button type="button" label="Back" th:onclick="'javascript:window.history.back();'">Back</button>
+		<br />
+		<p> &copy; 2017 Signal Aggregator</p>
+	</div>        
+</body>
+</html>

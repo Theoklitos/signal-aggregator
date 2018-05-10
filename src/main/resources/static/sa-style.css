@@ -1,0 +1,50 @@
+@CHARSET "ISO-8859-1";
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+
+a:link {
+	color: #0066FF;
+}
+
+a:visited {
+	color: grey;
+}
+
+tr.loss{background-color: #ff1a1a !important}
+tr.profit{background-color: #89E899 !important}
+tr:nth-child(even){background-color: #B0B0B0}
+tr:nth-child(odd){background-color: #E0E0E0}
+.plCell{font-weight: bold}
+
+th {
+    background-color: #0066FF;
+    color: white;
+}
+
+
+table.sa-header {
+	width: 50%;
+	border: 1px solid black;
+	margin-bottom: 10px;
+	
+}
+
+table.sa-header td {
+	border: 1px solid black;
+	border-bottom:1pt solid black;
+	background-color: #0066FF;	
+	text-align: center;
+}
+
+.sa-header a:visited, .sa-header a:link {
+	color: white;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signal Aggregator - Ranking</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" th:src="@{/sa.js}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/sa-style.css}" />
+</head>
+<body>
+	<div th:include="fragments :: header ('Ranking')"></div>
+
+    <table class="sa-table">
+    	<thead>
+			<tr>
+				<th>Signal Provider</th>
+				<th>Rank</th>								
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="entry : ${ranking.providerRankingMap}">
+		        <td th:text="${entry.key}"></td>
+				<td th:text="${entry.value}"></td>
+	      	</tr>		
+		</tbody>
+    </table>
+	
+	<div th:include="fragments :: footer"></div>    
+</body>
+</html>

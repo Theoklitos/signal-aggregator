@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signal Aggregator - Single Trade</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" th:src="@{/sa.js}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/sa-style.css}" />    
+</head>
+<body>
+	<div th:include="fragments :: header ('Trade Information')"></div>
+	
+	<p th:utext="'Trade opened based on a signal from &lt;strong&gt;' + ${trade.providerName} + '&lt;/strong&gt;'"></p>
+	
+	<p th:text="${tradeErrorMessage == null ? '' : 'Error message: ' + tradeErrorMessage}"></p>
+		
+    <table>
+    	<thead>
+			<tr>
+				<th>Status</th>
+				<th>Instrument</th>
+				<th>Side</th>
+				<th><strong>PL</strong></th>
+				<th>Remote ID</th>
+				<th>Opened At</th>				
+				<th>Closed At</th>
+				<th>Entry Price</th>
+				<th>Closing Price</th>
+				<th>Stop Loss</th>				
+				<th>Take Profit</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:class="${@formatter.getClassForMoney(trade)}">
+		        <td th:text="${trade.status}"></td>		        
+		        <td th:text="${trade?.signal?.instrument}"></td>
+		        <td th:text="${trade?.signal?.side}"></td>		        
+		        <td class="plCell" th:text="${@formatter.asMoneyString(trade.pl)}"></td>
+		        <td th:text="${trade.remoteId}"></td>
+		        <td th:text="${@formatter.asDate(trade.startDate)}"></td>
+		        <td th:text="${@formatter.asDate(trade.endDate)}"></td>
+		        <td th:text="${@formatter.asMoneyString(trade.entryPrice)}"></td>		        		     
+		        <td th:text="${@formatter.asMoneyString(trade.closingPrice)}"></td>
+		        <td th:text="${trade?.signal?.stopLoss}"></td>
+		        <td th:text="${trade?.signal?.takeProfit}"></td>
+	      	</tr>		
+		</tbody>
+    </table>
+    
+    <pre th:text="${trade.json}"></pre>
+    
+    <pre th:text="${errorMessage}"></pre>
+    
+	<div th:include="fragments :: footer"></div>    
+</body>
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="DAILY_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>
+				logs/saDailyLog.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{} [%thread] %-5level [%logger{26}] : %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- Log message format -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<encoder>
+			<!-- <pattern>%d{MMM dd HH:mm:ss} [%thread] %-5level [%logger{26}] : %msg%n</pattern> -->
+			<pattern>%d{} [%thread] %-5level [%logger{26}] : %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Setting the root level of logging to INFO -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DAILY_LOG_FILE" />
+	</root>
+
+	<!-- our logging. Note: The levels are TRACE < DEBUG < INFO < WARN < ERROR -->
+	<logger name="com.quantbro.aggregator" level="DEBUG" />
+
+	<!-- noisy spring loggers -->
+	<logger name="org.springframework.boot.SpringApplication" level="WARN" />
+	<logger name="org.springframework.boot.context" level="WARN" />
+	<logger name="org.springframework.boot.context.support" level="WARN" />
+	<logger name="org.springframework.boot.context.support.PostProcessorRegistrationDelegate" level="WARN" />
+	<logger name="org.springframework.boot.autoconfigure" level="WARN" />
+	<logger name="org.springframework.boot.logging" level="WARN" />
+	<logger name="org.springframework.boot.actuate.trace" level="WARN" />
+	<logger name="org.springframework.boot.actuate.endpoint.jmx" level="WARN" />
+	<logger name="org.springframework.boot.actuate.autoconfigure" level="WARN" />
+	<logger name="org.springframework.boot.actuate.endpoint.mvc" level="WARN" />
+	<logger name="org.springframework.boot.web.servlet" level="WARN" />
+	<logger name="org.springframework.web.servlet" level="WARN" />
+	<logger name="org.springframework.web.context" level="WARN" />
+	<logger name="org.springframework.boot.web.context" level="WARN" />
+	<logger name="org.springframework.boot.web.filter" level="WARN" />
+	<logger name="org.springframework.orm.jpa" level="WARN" />
+	<logger name="org.springframework.jmx.export.annotation" level="WARN" />
+	<logger name="org.springframework.context.support" level="WARN" />
+	<logger name="org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar" level="WARN" />
+	<logger name="org.springframework.security.web.DefaultSecurityFilterChain" level="WARN" />
+	<logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="WARN" />	
+				
+	<!-- jetty noisy loggers -->
+	<logger name="org.eclipse.jetty.util.log" level="WARN" />
+	<logger name="org.eclipse.jetty.server" level="WARN" />
+
+	<!-- hibernate/JPA noisy loggers -->
+	<logger name="org.hibernate.jpa.internal.util" level="WARN" />
+	<logger name="org.hibernate.validator.internal.util" level="WARN" />
+	<logger name="org.hibernate.cfg" level="WARN" />
+	<logger name="org.hibernate" level="WARN" />
+	<logger name="org.hibernate.dialect" level="WARN" />
+	<logger name="org.hibernate.annotations.common" level="WARN" />
+	<logger name="org.hibernate.hql.internal" level="WARN" />
+
+	<!-- misc noisy loggers -->
+	<logger name="org.reflections.Reflections" level="WARN" />
+	<logger name="org.thymeleaf" level="WARN" />
+
+	<!-- noisy scrappng loggers -->
+	<logger name="org.openqa.selenium.phantomjs.PhantomJSDriverService" level="OFF" />
+	<logger name="org.openqa.selenium.remote.RemoteWebDriver" level="OFF" />
+
+</configuration>

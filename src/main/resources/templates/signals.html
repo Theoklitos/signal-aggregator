@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signal Aggregator - Signals</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" th:src="@{/sa.js}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/sa-style.css}" />
+</head>
+<body>
+	<div th:include="fragments :: header ('Signals')"></div>
+	
+	<div th:if="${liveAggregations.size() > 0}">
+		<h3>Aggregations:</h3>
+		<div th:include="fragments :: aggregationTable" th:with="aggregations=${liveAggregations}"></div>
+	</div>	
+	
+	<h3>Live Signals:</h3>
+	<div th:include="fragments :: signalTable" th:with="signals=${liveSignals}"></div>
+	
+	<div th:if="${staleSignals.size() > 0}">
+		<h3>Stale Signals:</h3>
+		<div th:include="fragments :: signalTable" th:with="signals=${staleSignals}"></div>
+	</div>
+	
+	<h3>Latest closed signals:</h3>
+	<div th:include="fragments :: signalTable" th:with="signals=${closedSignals}"></div>
+	
+	<div th:include="fragments :: footer"></div>    
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signal Aggregator - Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" th:src="@{/sa.js}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/sa-style.css}" />
+</head>
+<body>	
+	<div th:include="fragments :: header ('Home')"></div>
+
+    <p th:text="${greetingMessage}" />    
+    <p th:text="${jobStatusMessage}" />
+    
+    <p> &copy; 2017 Signal Aggregator</p>    
+</body>
+</html>

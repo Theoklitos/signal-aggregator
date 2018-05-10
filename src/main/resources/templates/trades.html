@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signal Aggregator - Trades</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" th:src="@{/sa.js}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/sa-style.css}" />
+</head>
+<body>
+	<div th:include="fragments :: header ('Trades')"></div>
+
+	<h3>Open Trades:</h3>
+	<div th:include="fragments :: tradeTable" th:with="trades=${openTrades}"></div>
+	
+	<h3>Pending Trades:</h3>
+	<div th:include="fragments :: tradeTable" th:with="trades=${pendingTrades}"></div>
+	
+	<h3>Closed Trades:</h3>
+	<div th:include="fragments :: tradeTable" th:with="trades=${closedTrades}"></div>
+	
+	<h3 th:if="${!erroneousTrades.isEmpty()}">Erroneous Trades:</h3>
+	<div th:if="${!erroneousTrades.isEmpty()}" th:include="fragments :: tradeTable" th:with="trades=${erroneousTrades}"></div>
+	
+	<div th:include="fragments :: footer"></div>    
+</body>
+</html>

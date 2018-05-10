@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signal Aggregator - Jobs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" th:src="@{/sa.js}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/sa-style.css}" />
+</head>
+<body>
+	<div th:include="fragments :: header ('Jobs')"></div>
+
+	<div th:include="fragments :: jobTable ('Signal Provider')" th:with="jobs=${scrapingJobs}"></div>
+	
+	<br/><br/>
+	
+	<div th:include="fragments :: jobTable ('')" th:with="jobs=${tradeSynchronizationJob}"></div>
+	
+	<div th:include="fragments :: footer"></div>    
+</body>
+</html>
